@@ -1,0 +1,11 @@
+{{define "content"}}
+
+	<h1>hello , {{.Username}}</h1>
+
+	{{range .Posts}}
+		<div>
+		<p>{{.Username}} says : {{.Body}}</p>
+		</div>
+	{{end}}
+
+{{end}}
