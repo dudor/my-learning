@@ -8,5 +8,13 @@
 
         </form>
 
+        {{if .Errs}}
+            <ul>
+                {{range .Errs}}
+                <li>{{.}}</li>
+                        {{end}}
+            </ul>
+        {{end}}
+
 
         {{end}}
