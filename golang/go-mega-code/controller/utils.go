@@ -4,7 +4,6 @@ import (
 	"html/template"
 	"io/ioutil"
 	"os"
-	"fmt"
 )
 
 func PopulateTemplates() map[string]*template.Template {
@@ -20,7 +19,7 @@ func PopulateTemplates() map[string]*template.Template {
 		panic(err)
 	}
 	for _, fl := range fls {
-		fmt.Println(fl.Name())
+		//fmt.Println(fl.Name())
 		f, err := os.Open(basePath + "/content/" + fl.Name())
 		if err != nil {
 			panic(err)

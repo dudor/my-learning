@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"../vm"
+	"gomegacode/vm"
 	"net/http"
 )
 

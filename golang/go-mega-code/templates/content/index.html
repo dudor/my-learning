@@ -2,10 +2,8 @@
 
 	<h1>hello , {{.Username}}</h1>
 
-	{{range .Posts}}
-		<div>
-		<p>{{.Username}} says : {{.Body}}</p>
-		</div>
-	{{end}}
+{{range .Posts}}
+        <div><p>{{ .User.Username }} says: <b>{{ .Body }}</b></p></div>
+{{end}}
 
 {{end}}
