@@ -6,13 +6,15 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/gorilla/context"
 )
 
 func main() {
 	initDB()
 	controller.Startup()
 	log.Print("server runing at 127.0.0.1:8081")
-	err := http.ListenAndServe(":8081", nil)
+	err := http.ListenAndServe(":8081", context.ClearHandler(http.DefaultServeMux))
 
 	if err != nil {
 		panic(err)
