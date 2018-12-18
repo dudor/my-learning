@@ -15,6 +15,7 @@ func SetDB(database *gorm.DB) {
 func ConnectToDB() *gorm.DB {
 	connectionStr := "./gomega.db"
 	log.Print("connect to db ...")
+
 	db, err := gorm.Open("sqlite3", connectionStr)
 	if err != nil {
 		panic(err)

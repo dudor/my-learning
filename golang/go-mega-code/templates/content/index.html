@@ -1,6 +1,6 @@
 {{define "content"}}
 
-	<h1>hello , {{.Username}}</h1>
+	<h1>hello , {{.CurrentUser}}</h1>
 
 {{range .Posts}}
         <div><p>{{ .User.Username }} says: <b>{{ .Body }}</b></p></div>

@@ -8,14 +8,18 @@ import (
 type home struct{}
 
 func (h home) registerRouter() {
-	http.HandleFunc("/", indexController)
+	http.HandleFunc("/", middleAuth(indexController))
 	http.HandleFunc("/login", loginController)
+	http.HandleFunc("/logout",middleAuth(logoutController))
 }
 
 func indexController(w http.ResponseWriter, r *http.Request) {
 	vop := vm.IndexViewModelOp{}
-	m := vop.GetVm()
-	templates["index.html"].Execute(w, &m)
+	username,_:= getSessionUser(r)
+	v:= vop.GetVm(username)
+	templates["index.html"].Execute(w, &v)
+
+
 }
 
 func loginController(w http.ResponseWriter, r *http.Request) {
@@ -36,20 +40,21 @@ func loginController(w http.ResponseWriter, r *http.Request) {
 		if len(password) < 6 {
 			m.AddError("password length must longer than 6")
 		}
-		if check(username, password) == false {
+
+		if vm.CheckLogin(username,password) == false{
 			m.AddError("username password not correct,please input again")
 		}
 
 		if len(m.Errs) > 0 {
 			templates["login.html"].Execute(w, &m)
 		} else {
+			setSessionUser(w,r,username)
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
 	}
 }
-func check(username, password string) bool {
-	if username == "user1" && password == "password1" {
-		return true
-	}
-	return false
+
+func logoutController(w http.ResponseWriter,r *http.Request)  {
+	clearSession(w,r)
+	http.Redirect(w,r, "/login",http.StatusTemporaryRedirect)
 }

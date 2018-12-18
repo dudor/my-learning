@@ -7,8 +7,14 @@
 		{{end}}
 		</title></head>
 		<body>
-		<div>blog:<a href="/">Home</a>
-		<a href="/login">Login</a>
+		<div>blog
+			<a href="/">Home</a>
+			{{if .CurrentUser}}
+				<a href="/logout">Logout</a>
+			{{else}}
+				<a href="/login">Login</a>
+			{{end}}
+
 		</div>
 		{{template "content" .}}
 		</body>
