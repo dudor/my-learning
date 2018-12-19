@@ -22,3 +22,8 @@ func GetUserByUsername(username string) (*User, error) {
 	}
 	return &user, nil
 }
+func AddUser(username,password,email string) error  {
+	u:= User{Username:username, Email:email	}
+	u.SetPassword(password)
+	return db.Create(&u).Error
+}
