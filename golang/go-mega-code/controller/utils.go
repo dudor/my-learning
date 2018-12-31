@@ -30,7 +30,7 @@ func PopulateTemplates() map[string]*template.Template {
 		if err != nil {
 			panic(err)
 		}
-
+log.Print(f.Name())
 		content, err := ioutil.ReadAll(f)
 		if err != nil {
 			panic(err)

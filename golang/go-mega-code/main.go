@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"gomegacode/controller"
 	"gomegacode/model"
 	"log"
@@ -32,8 +33,10 @@ func initDB() {
 
 	users := []model.User{
 		{
-			Username:     "user1",
+			Username:     "username1",
 			PasswordHash: model.GeneratePasswordHash("password1"),
+			Email:"email1@qq.com",
+			Avatar:fmt.Sprintf("https://www.gravatar.com/avatar/%s?d=identicon", model.Md5("email1@qq.com")),
 			Posts: []model.Post{
 				{
 					Body:      "this is post1 contents",
@@ -46,8 +49,10 @@ func initDB() {
 			},
 		},
 		{
-			Username:     "user2",
+			Username:     "username2",
 			PasswordHash: model.GeneratePasswordHash("password2"),
+			Email:"email1@qq.com",
+			Avatar:fmt.Sprintf("https://www.gravatar.com/avatar/%s?d=identicon", model.Md5("email1@qq.com")),
 			Posts: []model.Post{
 				{
 					Body:      "this is post2 contents",
