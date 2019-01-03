@@ -14,7 +14,7 @@ type IndexViewModelOp struct{}
 
 func (IndexViewModelOp) GetVm(username string) IndexViewModel {
 	u1, err := model.GetUserByUsername(username)
-	if err!=nil{
+	if err != nil {
 		return IndexViewModel{}
 	}
 	posts, _ := model.GetPostByUserID(u1.ID)

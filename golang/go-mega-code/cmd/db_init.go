@@ -1,7 +1,7 @@
 package main
 
 import (
-"gomegacode/model"
+	"gomegacode/model"
 )
 
 func main() {

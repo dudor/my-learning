@@ -9,6 +9,6 @@ func (v *BaseViewModel) SetTitle(title string) {
 	v.Title = title
 }
 
-func (v *BaseViewModel)SetCurrentUser(username string)  {
+func (v *BaseViewModel) SetCurrentUser(username string) {
 	v.CurrentUser = username
 }

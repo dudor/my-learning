@@ -4,9 +4,12 @@ import "gomegacode/model"
 
 type ProfileViewModel struct {
 	BaseViewModel
-	Posts       []model.Post
-	ProfileUser model.User
-	Editable bool
+	Posts          []model.Post
+	ProfileUser    model.User
+	Editable       bool
+	IsFollow       bool
+	FollowersCount int
+	FollowingCount int
 }
 
 type ProfileViewModelOp struct {
@@ -24,5 +27,24 @@ func (ProfileViewModelOp) GetVM(curUser, pUser string) (ProfileViewModel, error)
 	v.ProfileUser = *u1
 	v.SetCurrentUser(curUser)
 	v.Editable = (curUser == pUser)
+	if !v.Editable {
+		v.IsFollow = u1.IsFollowedByUser(curUser)
+	}
+	v.FollowersCount = u1.FollowersCount()
+	v.FollowingCount = u1.FollowingCount()
 	return v, nil
+}
+func Follow(a, b string) error {
+	u, err := model.GetUserByUsername(a)
+	if err != nil {
+		return err
+	}
+	return u.Follow(b)
+}
+func UnFollow(a, b string) error {
+	u, err := model.GetUserByUsername(a)
+	if err != nil {
+		return err
+	}
+	return u.UnFollow(b)
 }

@@ -25,6 +25,8 @@ func (h home) registerRouter() {
 	r.HandleFunc("/user/{username}", middleAuth(profileController))
 	r.HandleFunc("/", middleAuth(indexController))
 	r.HandleFunc("/profile_edit", middleAuth(profileEditController))
+	r.HandleFunc("/follow/{username}", middleAuth(followController))
+	r.HandleFunc("/unfollow/{username}", middleAuth(unfollowController))
 
 	http.Handle("/", r)
 }
@@ -112,20 +114,43 @@ func profileEditController(w http.ResponseWriter, r *http.Request) {
 	username, _ := getSessionUser(r)
 	vop := vm.ProfileEditViewModelOp{}
 	v := vop.GetVM(username)
-	if r.Method == http.MethodGet{
-		templates["profile_edit.html"].Execute(w,&v)
+	if r.Method == http.MethodGet {
+		templates["profile_edit.html"].Execute(w, &v)
 	}
-	if r.Method== http.MethodPost{
+	if r.Method == http.MethodPost {
 		r.ParseForm()
-		aboutme:= r.Form.Get("aboutme")
+		aboutme := r.Form.Get("aboutme")
 		log.Print(aboutme)
-		err:= model.UpdateAboutMe(username,aboutme)
-		if err!=nil{
-			log.Print("edit profile error:",err)
+		err := model.UpdateAboutMe(username, aboutme)
+		if err != nil {
+			log.Print("edit profile error:", err)
 			w.Write([]byte("Error update aboutme"))
 			return
 		}
-		http.Redirect(w,r,"/user/"+username,301)
+		http.Redirect(w, r, "/user/"+username, 301)
 	}
-
+}
+func followController(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	pUser := vars["username"]
+	sUser, _ := getSessionUser(r)
+	err := vm.Follow(sUser, pUser)
+	if err != nil {
+		log.Print("followController Error", err)
+		w.Write([]byte("Error in UnFollow"))
+		return
+	}
+	http.Redirect(w, r, "/user/"+pUser, 301)
+}
+func unfollowController(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	pUser := vars["username"]
+	sUser, _ := getSessionUser(r)
+	err := vm.UnFollow(sUser, pUser)
+	if err != nil {
+		log.Print("unfollowController Error", err)
+		w.Write([]byte("unfollowController Error"))
+		return
+	}
+	http.Redirect(w, r, "/user/"+pUser, 301)
 }

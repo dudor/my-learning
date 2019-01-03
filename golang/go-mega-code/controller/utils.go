@@ -30,7 +30,7 @@ func PopulateTemplates() map[string]*template.Template {
 		if err != nil {
 			panic(err)
 		}
-log.Print(f.Name())
+		log.Print(f.Name())
 		content, err := ioutil.ReadAll(f)
 		if err != nil {
 			panic(err)
@@ -135,8 +135,8 @@ func CheckLogin(username, password string) []string {
 }
 func CheckRegister(username, email, password1, password2 string) []string {
 	var errs []string
-	if password1!=password2{
-		errs = append(errs,"password does not match")
+	if password1 != password2 {
+		errs = append(errs, "password does not match")
 	}
 	if err := CheckUsername(username); len(err) > 0 {
 		errs = append(errs, err)
@@ -144,14 +144,14 @@ func CheckRegister(username, email, password1, password2 string) []string {
 	if err := CheckPassword(password1); len(err) > 0 {
 		errs = append(errs, err)
 	}
-	if err:= CheckEmail(email);len(err)>0{
-		errs = append(errs,err)
+	if err := CheckEmail(email); len(err) > 0 {
+		errs = append(errs, err)
 	}
 	if err := CheckUserExist(username); len(err) > 0 {
 		errs = append(errs, err)
 	}
 	return errs
 }
-func AddUser(username,email,password string) error{
-	return vm.AddUser(username,password,email)
+func AddUser(username, email, password string) error {
+	return vm.AddUser(username, password, email)
 }

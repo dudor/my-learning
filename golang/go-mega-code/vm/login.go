@@ -26,7 +26,7 @@ func (v *LoginViewModel) AddError(errs ...string) {
 func CheckLogin(username, password string) bool {
 	user, err := model.GetUserByUsername(username)
 	if err != nil {
-		log.Print("can not find username:",username)
+		log.Print("can not find username:", username)
 		log.Print(err)
 		return false
 	}
