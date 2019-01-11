@@ -12,7 +12,7 @@ type Post struct {
 
 func GetPostByUserID(id int) (*[]Post, error) {
 	var posts []Post
-	if err := db.Debug().Preload("User").Where("user_id=?", id).Find(&posts).Error; err != nil {
+	if err := db.Preload("User").Where("user_id=?", id).Find(&posts).Error; err != nil {
 		return nil, err
 	}
 	return &posts, nil

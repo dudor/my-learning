@@ -34,8 +34,30 @@ func (h home) registerRouter() {
 func indexController(w http.ResponseWriter, r *http.Request) {
 	vop := vm.IndexViewModelOp{}
 	username, _ := getSessionUser(r)
-	v := vop.GetVm(username)
-	templates["index.html"].Execute(w, &v)
+	if r.Method == http.MethodGet {
+		fls := GetFlash(w,r)
+		log.Println("flash=",fls)
+		v := vop.GetVm(username, fls)
+		templates["index.html"].Execute(w, &v)
+	}
+	if r.Method == http.MethodPost {
+		r.ParseForm()
+		body := r.Form.Get("body")
+		err := checkLen("Post", body, 1, 100)
+		log.Println("error:=",err)
+		if err != "" {
+			SetFlash(w, r, err)
+		} else {
+			err := vm.CreatePost(username, body)
+			if err != nil {
+				log.Println("Create post error", err)
+				w.Write([]byte("Create post error"))
+				return
+			}
+		}
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+
 }
 
 func loginController(w http.ResponseWriter, r *http.Request) {
@@ -48,7 +70,6 @@ func loginController(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		username := r.Form.Get("username")
 		password := r.Form.Get("password")
-		//fmt.Fprintf(w, "username=%s password=%s", username, password)
 
 		errs := CheckLogin(username, password)
 		m.AddError(errs...)

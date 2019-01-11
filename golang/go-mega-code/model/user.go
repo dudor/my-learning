@@ -26,7 +26,7 @@ func (u *User) CheckPassword(password string) bool {
 }
 func GetUserByUsername(username string) (*User, error) {
 	var user User
-	if err := db.Debug().Where("username=?", username).Find(&user).Error; err != nil {
+	if err := db.Where("username=?", username).Find(&user).Error; err != nil {
 		return nil, err
 	}
 	return &user, nil
@@ -89,7 +89,6 @@ func (u *User) FollowingIDs() []int {
 		rows.Scan(&id, &follower_id)
 		ids = append(ids, id)
 	}
-	log.Print("ids=", ids)
 	return ids
 }
 func (u *User) FollowingCount() int {
