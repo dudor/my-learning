@@ -34,10 +34,11 @@ func (h home) registerRouter() {
 func indexController(w http.ResponseWriter, r *http.Request) {
 	vop := vm.IndexViewModelOp{}
 	username, _ := getSessionUser(r)
+	page := GetPage(r)
 	if r.Method == http.MethodGet {
 		fls := GetFlash(w,r)
 		log.Println("flash=",fls)
-		v := vop.GetVm(username, fls)
+		v := vop.GetVm(username, fls,page,pageLimit)
 		templates["index.html"].Execute(w, &v)
 	}
 	if r.Method == http.MethodPost {
@@ -121,7 +122,9 @@ func profileController(w http.ResponseWriter, r *http.Request) {
 	pUser := vars["username"]
 	sUser, _ := getSessionUser(r)
 	vop := vm.ProfileViewModelOp{}
-	v, err := vop.GetVM(sUser, pUser)
+	page:= GetPage(r)
+
+	v, err := vop.GetVM(sUser, pUser,page,pageLimit)
 
 	fmt.Println(v, err)
 	if err != nil {

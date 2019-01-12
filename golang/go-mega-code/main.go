@@ -24,6 +24,7 @@ func initDB() {
 	db := model.ConnectToDB()
 	//defer db.Close()
 	model.SetDB(db)
+	return
 	db.DropTableIfExists(model.User{}, model.Post{})
 	db.CreateTable(model.User{}, model.Post{})
 

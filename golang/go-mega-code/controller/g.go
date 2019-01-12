@@ -11,7 +11,8 @@ var (
 	templates      map[string]*template.Template
 	sessionName    string
 	store          *sessions.CookieStore
-	flashName string
+	flashName      string
+	pageLimit      int
 )
 
 func init() {
@@ -19,6 +20,7 @@ func init() {
 	store = sessions.NewCookieStore([]byte("secretkeycontents"))
 	sessionName = "go-mega"
 	flashName = "go-mega-flash"
+	pageLimit = 5
 }
 
 func Startup() {

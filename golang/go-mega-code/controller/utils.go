@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"strconv"
 )
 
 func PopulateTemplates() map[string]*template.Template {
@@ -155,17 +156,30 @@ func CheckRegister(username, email, password1, password2 string) []string {
 func AddUser(username, email, password string) error {
 	return vm.AddUser(username, password, email)
 }
-func SetFlash(w http.ResponseWriter,r *http.Request,content string)  {
-	session,_:= store.Get(r,sessionName)
-	session.AddFlash(content,flashName)
-	session.Save(r,w)
+func SetFlash(w http.ResponseWriter, r *http.Request, content string) {
+	session, _ := store.Get(r, sessionName)
+	session.AddFlash(content, flashName)
+	session.Save(r, w)
 }
-func GetFlash(w http.ResponseWriter,r *http.Request) string {
-	session,_:= store.Get(r,sessionName)
-	content:= session.Flashes(flashName)
-	if content == nil{
+func GetFlash(w http.ResponseWriter, r *http.Request) string {
+	session, _ := store.Get(r, sessionName)
+	content := session.Flashes(flashName)
+	if content == nil {
 		return ""
 	}
-	session.Save(r,w)
-	return fmt.Sprintf("%v",content)
+	session.Save(r, w)
+	return fmt.Sprintf("%v", content)
+}
+func GetPage(r *http.Request) int {
+	query := r.URL.Query()
+	q := query.Get("page")
+	if q == "" {
+		return 1
+	}
+	page, err := strconv.Atoi(q)
+	if err != nil {
+		return 1
+	}
+	return page
+
 }

@@ -26,13 +26,22 @@
         </table>
 <hr/>
         {{range .Posts}}
-<table>
-    <tr>
-        <td>
-            <image src="{{.User.Avatar}}&s=36"></image>
-        </td>
-        <td>{{.User.Username}} says: {{.Body}}</td>
-    </tr>
-</table>
-{{end}}
+        <table>
+            <tr>
+                <td>
+                    <image src="{{.User.Avatar}}&s=36"></image>
+                </td>
+                <td>{{.User.Username}} says: {{.Body}}</td>
+                <td>time: {{.Timestamp}}</td>
+            </tr>
+        </table>
+        {{end}}
+
+        {{ if gt .PrevPage 0 }}
+        <a href="/user/{{.ProfileUser.Username}}?page={{.PrevPage}}">Newer posts</a>
+        {{ end }}
+        {{ if gt .NextPage 0 }}
+        <a href="/user/{{.ProfileUser.Username}}?page={{.NextPage}}">Older posts</a>
+        {{ end }}
+
 {{end}}

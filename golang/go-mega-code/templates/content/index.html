@@ -18,10 +18,16 @@
                 <img src="{{.User.Avatar}}"/>
             </td>
             <td>
-                <p>{{ .User.Username }} says: <b>{{ .Body }}</b></p>
+                <p><a href="/user/{{.User.Username}}">{{ .User.Username }}</a> says: <b>{{ .Body }}</b></p>
             </td>
         </tr>
     </table>
 {{end}}
 
+        {{if gt .PrevPage 0}}
+<a href="/?page={{.PrevPage}}">Newer Posts</a>
+        {{end}}
+        {{if gt .NextPage 0}}
+        <a href="/?page={{.NextPage}}">Older Posts</a>
+        {{end}}
 {{end}}
