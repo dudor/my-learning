@@ -1,9 +1,11 @@
 package controller
 
 import (
+	"crypto/tls"
 	"errors"
 	"fmt"
 	"gomegacode/vm"
+	"gopkg.in/gomail.v2"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -153,6 +155,19 @@ func CheckRegister(username, email, password1, password2 string) []string {
 	}
 	return errs
 }
+
+func CheckResetPassword(  password1, password2 string) []string {
+	var errs []string
+	if password1 != password2 {
+		errs = append(errs, "password does not match")
+	}
+	if err := CheckPassword(password1); len(err) > 0 {
+		errs = append(errs, err)
+	}
+	return errs
+}
+
+
 func AddUser(username, email, password string) error {
 	return vm.AddUser(username, password, email)
 }
@@ -182,4 +197,24 @@ func GetPage(r *http.Request) int {
 	}
 	return page
 
+}
+func sendEmail(target, subject, content string) {
+	email_server := ""
+	email_port := 0
+	email_user := ""
+	email_pwd := ""
+	d := gomail.NewDialer(email_server, email_port, email_user, email_pwd)
+	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+
+	m:= gomail.NewMessage()
+	m.SetHeader("From",email_user)
+	m.SetHeader("To",target)
+	m.SetAddressHeader("Cc",email_user,"admin")
+	m.SetHeader("Subject",subject)
+	m.SetBody("text/html",content)
+
+	if err:= d.DialAndSend(m);err!=nil{
+		log.Println("Send Email Error",err)
+		return
+	}
 }
