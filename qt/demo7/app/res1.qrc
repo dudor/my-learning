@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/images">
+        <file alias="bubble2">btn_defence_arming_bubble2.png</file>
+    </qresource>
+</RCC>
