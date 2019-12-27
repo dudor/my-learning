@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include "qtextedit.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -18,6 +18,10 @@ public:
 private:
     Ui::MainWindow *ui;
     void open();
+    void save();
     QAction *openAction;
+    QAction *saveAction;
+    QTextEdit *textEdit;
+
 };
 #endif // MAINWINDOW_H
