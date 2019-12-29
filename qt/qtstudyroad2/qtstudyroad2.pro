@@ -9,4 +9,5 @@ SUBDIRS += \
     demo36 \
     demo37 \
     demo38 \
+    demo18 \
     demo7

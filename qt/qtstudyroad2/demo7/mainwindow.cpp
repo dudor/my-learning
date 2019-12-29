@@ -4,6 +4,9 @@
 #include "qmessagebox.h"
 #include "qinputdialog.h"
 #include "qdebug.h"
+#include "qtextedit.h"
+#include "qfiledialog.h"
+#include "qfile.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -14,13 +17,23 @@ MainWindow::MainWindow(QWidget *parent)
        this->openAction->setShortcut(QKeySequence::Open);
        this->openAction->setStatusTip("Open an existing file.");
        this->connect(this->openAction,&QAction::triggered,this,[=]{this->open();});
+
+       this->saveAction = new QAction(QIcon(":/images/bubble2"),"&Save",this);
+        connect(this->saveAction,&QAction::triggered,this,&MainWindow::save);
+
        QMenu *menuFile = this->menuBar()->addMenu("&File");
        menuFile->addAction(this->openAction);
 
+       QMenu *mSave = this->menuBar()->addMenu("&Save");
+       mSave->addAction(saveAction);
+
        QToolBar *toolbar = this->addToolBar("File");
        toolbar->addAction(this->openAction);
+       toolbar->addAction(saveAction);
 
        this->statusBar();
+       this->textEdit = new QTextEdit(this);
+       this->setCentralWidget(this->textEdit);
 
 }
 
@@ -35,9 +48,45 @@ void MainWindow::open()
 //    dialog->setAttribute(Qt::WA_DeleteOnClose);
 //    dialog->setWindowTitle("This is a dialog");
 //    dialog->exec();
-    QInputDialog dialog(this);
-    dialog.exec();
-    qDebug() << dialog.textValue();
+//    QInputDialog dialog(this);
+//    dialog.exec();
+//    qDebug() << dialog.textValue();
+
+    QString path = QFileDialog::getOpenFileName(this,"Open File",".","*.txt");
+    if(!path.isEmpty())
+    {
+        QFile file(path);
+        if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            QMessageBox::warning(this,"Read File","Cannt open file");
+            return;
+        }
+        QTextStream in(&file);
+        this->textEdit->setText(in.readAll());
+        file.close();
+    }
+    else{
+        QMessageBox::warning(this,"Read File","please select some files");
+    }
+
+}
+
+void MainWindow::save()
+{
+    QString path = QFileDialog::getSaveFileName(this,"Save File",".","*.txt");
+    if(!path.isEmpty()){
+        QFile file(path);
+        if(!file.open(QIODevice::WriteOnly | QIODevice::Text)){
+            QMessageBox::warning(this,"Write File","Cannt open file");
+            return;
+        }
+        QTextStream out(&file);
+        out << this->textEdit->toPlainText();
+        file.close();
+    }
+    else{
+        QMessageBox::warning(this,"Write File","Please Select a file to save");
+    }
 }
 
 MainWindow::~MainWindow()
