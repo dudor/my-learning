@@ -26,5 +26,6 @@ int main(int argc, char *argv[])
 
     window.connect(listWidget,&QListWidget::currentTextChanged,label,&QLabel::setText);
     window.show();
+
     return a.exec();
 }

@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
+	demo7  \
     demo11 \
     demo16 \
     demo19 \
@@ -11,4 +12,5 @@ SUBDIRS += \
     demo38 \
     demo18 \
     demo42 \
-    demo7
+    demo43 \
+    

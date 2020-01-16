@@ -17,11 +17,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-	dialog.cpp
-HEADERS += \
-    dialog.h
-    
+    mylistview.cpp
 
+HEADERS += \
+    mylistview.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
