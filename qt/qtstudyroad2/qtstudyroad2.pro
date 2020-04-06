@@ -5,6 +5,9 @@ SUBDIRS += \
     demo47 \
     demo48 \
     demo49 \
+    demo52 \
+    demo55 \
+    demo56 \
 	demo7  \
     demo11 \
     demo16 \
