@@ -3,7 +3,6 @@ QT       += core gui sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 
-QT -= gui
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
