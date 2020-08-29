@@ -2,9 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Banner from './Banner'
 import MainView from './MainView'
+import agent from '../../agent'
 
 class Home extends React.Component {
-
+    componentWillMount(){
+        this.props.onload(agent.Articles.all())
+    }
     render() {
         return (
             <div className="home-page">
@@ -31,5 +34,10 @@ class Home extends React.Component {
 const mapStateToProps = state => {
     return { appName: state.appName }
 }
+const mapDispatch = dispatch =>({
+    onload:(payload)=>{
+        dispatch({type:'HOME_PAGE_LOADED',payload})
+    }
+})
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps,mapDispatch)(Home)
