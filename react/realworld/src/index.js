@@ -4,26 +4,18 @@ import './index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import { promiseMiddleware } from './middleware'
-const defaultState = {
-  appName: "conduit",
-  articles: null
-}
-const reducer = (state = defaultState, action) => {
-  switch (action.type) {
-    case 'HOME_PAGE_LOADED':
-      return { ...state, articles: action.payload.articles }
-      break;
-  }
-  return state;
-}
-const store = createStore(reducer, applyMiddleware(promiseMiddleware));
+import store from './store'
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
+
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router>
+        <Switch>
+          <Route path="/" component={App} />
+        </Switch>
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

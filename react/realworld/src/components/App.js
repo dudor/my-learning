@@ -2,13 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux'
 import './App.css';
 import Home from './Home';
+import Header from './Header';
+import { Switch, Route } from 'react-router-dom'
+import Login from './Login';
 
 class App extends React.Component {
 
   render() {
     return (
       <div>
-        <Home appName={this.props.appName} />
+        <Header appName={this.props.appName} />
+        <Switch>
+          <Route path='/' component={Home}/>
+        </Switch>
       </div>
     )
   }
