@@ -14,6 +14,7 @@ class App extends React.Component {
         <Header appName={this.props.appName} />
         <Switch>
           <Route path='/' component={Home}/>
+          <Route path='/login' component={Login}/>
         </Switch>
       </div>
     )
