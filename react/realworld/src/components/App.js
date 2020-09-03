@@ -3,7 +3,12 @@ import { connect } from 'react-redux'
 import './App.css';
 import Home from './Home';
 import Header from './Header';
-import { Switch, Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import Login from './Login';
 
 class App extends React.Component {
@@ -13,8 +18,12 @@ class App extends React.Component {
       <div>
         <Header appName={this.props.appName} />
         <Switch>
-          <Route path='/' component={Home}/>
-          <Route path='/login' component={Login}/>
+          <Route path='/' exact>
+            <Home/>
+          </Route>
+          <Route path='/login'>
+            <Login/>
+          </Route>
         </Switch>
       </div>
     )

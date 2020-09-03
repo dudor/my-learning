@@ -5,7 +5,12 @@ import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import store from './store'
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 
 ReactDOM.render(
@@ -13,7 +18,9 @@ ReactDOM.render(
     <Provider store={store}>
       <Router>
         <Switch>
-          <Route path="/" component={App} />
+          <Route path="/">
+            <App />
+          </Route>
         </Switch>
       </Router>
     </Provider>
