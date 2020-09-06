@@ -32,7 +32,7 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return { appName: state.appName }
+    return { appName: state.common.appName }
 }
 const mapDispatch = dispatch =>({
     onload:(payload)=>{

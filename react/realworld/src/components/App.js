@@ -7,22 +7,45 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import Login from './Login';
+import agent from '../agent';
+
+const mapStateToProps = state => {
+  return {
+    appName: state.common.appName,
+    currentUser: state.common.currentUser,
+    redirectTo: state.common.redirectTo,
+  }
+}
+const mapDispatchToProps = dispatch => ({
+  onLoad: (payload, token) => dispatch({ type: 'APP_LOAD', payload, token }),
+  onRedirect: () => dispatch({ type: 'REDIRECT' })
+})
 
 class App extends React.Component {
+  componentWillMount() {
+    const token = window.localStorage.getItem('jwt')
+    if (token) {
+      agent.SetToken(token)
+    }
+    this.props.onLoad(token ? agent.Auth.current() : null, token);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.redirectTo) {
+      this.props.onRedirect();
+    }
+  }
 
   render() {
     return (
       <div>
-        <Header appName={this.props.appName} />
+        <Header appName={this.props.appName} currentUser={this.props.currentUser} />
         <Switch>
-          <Route path='/' exact>
-            <Home/>
+          <Route path='/' exact component={Home}>
           </Route>
-          <Route path='/login'>
-            <Login/>
+          <Route path='/login' component={Login}>
           </Route>
         </Switch>
       </div>
@@ -30,7 +53,5 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  appName: state.appName
-});
-export default connect(mapStateToProps, () => ({}))(App);
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

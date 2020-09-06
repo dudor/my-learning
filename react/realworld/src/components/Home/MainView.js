@@ -21,7 +21,7 @@ const MainView = props => {
 
 const mapState = state => {
     return {
-        articles: state.articles
+        articles: state.home.articles
     }
 }
 export default connect(mapState)(MainView)

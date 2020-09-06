@@ -9,7 +9,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 
@@ -17,11 +16,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <Router>
-        <Switch>
-          <Route path="/">
-            <App />
-          </Route>
-        </Switch>
+        <App />
       </Router>
     </Provider>
   </React.StrictMode>,
