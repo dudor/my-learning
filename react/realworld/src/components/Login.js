@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import agent from '../agent'
+import ListErrors from './ListErrors'
 
 const mapStateToProps = state => {
     return { ...state.auth }
@@ -37,6 +38,9 @@ class Login extends React.Component {
                                     NEED AN ACCOUNT?
                                     </a>
                             </p>
+
+                            <ListErrors errors={this.props.errors} />
+
                             <form onSubmit={this.submitForm(email, password)}>
                                 <fieldset>
                                     <fieldset className='form-group'>

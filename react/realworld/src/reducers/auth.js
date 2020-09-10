@@ -1,16 +1,17 @@
 export default (state = {}, action) => {
-    console.log(action)
     switch (action.type) {
         case 'LOGIN':
+            console.log(action)
             return {
                 ...state,
                 inProgress: false,
                 errors: action.error ? action.payload.errors : null
             }
         case 'ASYNC_START':
-            return {
-                ...state,
-            }
+            if (action.subtype === 'LOGIN' || action.subtype === 'REGISTER') {
+                return { ...state, inProgress: true };
+              }
+              break;
         case 'UPDATE_FIELD_AUTH':
             return {
                 ...state,

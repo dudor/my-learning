@@ -22,8 +22,8 @@ const requests = {
     post: (url, body) => {
         return _superagent.post(`${API_ROOT}${url}`, body)
             .use(tokenPlugin).withCredentials()
-            .then(req => { console.log(req); return req.body; })
-            .catch(err => { console.log(err); return err; })
+            .then(responseBody)
+            
     }
 }
 
