@@ -10,6 +10,8 @@ import {
 } from "react-router-dom";
 import Login from './Login';
 import agent from '../agent';
+import Register from './Register';
+import Settings from './Settings';
 
 const mapStateToProps = state => {
   return {
@@ -47,6 +49,8 @@ class App extends React.Component {
           </Route>
           <Route path='/login' component={Login}>
           </Route>
+          <Route path='/register' component={Register} />
+          <Route path='/settings' component={Settings} />
         </Switch>
       </div>
     )

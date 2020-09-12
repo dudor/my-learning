@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import agent from '../agent'
 import ListErrors from './ListErrors'
+import { Link } from 'react-router-dom'
 
 const mapStateToProps = state => {
     return { ...state.auth }
@@ -25,8 +26,8 @@ class Login extends React.Component {
     }
 
     render() {
-        const email = this.props.email;
-        const password = this.props.password;
+        const email = this.props.email || '';
+        const password = this.props.password || '';
         return (
             <div className='auth-page'>
                 <div className='container page'>
@@ -34,12 +35,11 @@ class Login extends React.Component {
                         <div className='col-md-6 offset-md-3 col-xs-12'>
                             <h1 className='text-xs-center'>SIGN IN</h1>
                             <p className='text-xs-center'>
-                                <a className='text-xs-center'>
+                                <Link to='/register'>
                                     NEED AN ACCOUNT?
-                                    </a>
+                                    </Link>
                             </p>
 
-                            <ListErrors errors={this.props.errors} />
 
                             <form onSubmit={this.submitForm(email, password)}>
                                 <fieldset>
@@ -64,6 +64,8 @@ class Login extends React.Component {
                                     </button>
                                 </fieldset>
                             </form>
+                            <ListErrors errors={this.props.errors} />
+
                         </div>
                     </div>
                 </div>
