@@ -2,19 +2,26 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const LogoutView = props => {
-    return <div>
-        <ul className='nav navbar-nav pull-xs-right'>
-            <li className='nav-item'>
-                <Link to='/' className='nav-link'>Home</Link>
-            </li>
-            <li className='nav-item'>
-                <Link to='login' className='nav-link'>Login</Link>
-            </li>
-            <li className='nav-item'>
-                <Link to='register' className='nav-link'>register</Link>
-            </li>
-        </ul>
-    </div>
+    if (!props.currentUser) {
+
+        return <div>
+            <ul className='nav navbar-nav pull-xs-right'>
+                <li className='nav-item'>
+                    <Link to='/' className='nav-link'>Home</Link>
+                </li>
+                <li className='nav-item'>
+                    <Link to='login' className='nav-link'>Login</Link>
+                </li>
+                <li className='nav-item'>
+                    <Link to='register' className='nav-link'>register</Link>
+                </li>
+            </ul>
+        </div>
+    }
+    else{
+        return null;
+    }
+
 }
 const LoginView = props => {
     if (props.currentUser) {
