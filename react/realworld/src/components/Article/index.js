@@ -6,7 +6,7 @@ import CommentContainer from './CommentContainer'
 import { connect } from 'react-redux'
 const mapStateToProps = state => {
     return {
-        ...state.Article,
+        ...state.article,
         currentUser: state.common.currentUser
     }
 }
@@ -20,20 +20,22 @@ const mapDispatchToProps = dispatch => {
 class Article extends React.Component {
     componentWillMount() {
         this.props.onLoad(Promise.all([
-            agent.Articles.get(this.props.params.id),
-            agent.Comments.forArticle(this.props.params.id)
+            agent.Articles.get(this.props.match.params.id),
+            agent.Comments.forArticle(this.props.match.params.id)
         ]))
     }
     componentWillUnmount() {
         this.props.onUnload()
     }
     render() {
+    console.log(this.props)
+
         if (!this.props.article) {
             return null;
         }
         const markup = { __html: marked(this.props.article.body) }
         const canModify = this.props.currentUser &&
-            this.props.currentUser.username === this.props.author.username;
+            this.props.currentUser.username === this.props.article.author.username;
 
         return (
             <div className='article-page'>
@@ -77,7 +79,7 @@ class Article extends React.Component {
                     <div className='row'>
                         <CommentContainer comments={this.props.comments || []}
                             errors={this.props.commentErrors}
-                            slut={this.props.params.id}
+                            slut={this.props.match.params.id}
                             currentUser={this.props.currentUser}>
                         </CommentContainer>
                     </div>

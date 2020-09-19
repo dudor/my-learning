@@ -12,7 +12,7 @@ import Login from './Login';
 import agent from '../agent';
 import Register from './Register';
 import Settings from './Settings';
-
+import Article from './Article';
 const mapStateToProps = state => {
   return {
     appName: state.common.appName,
@@ -45,12 +45,11 @@ class App extends React.Component {
       <div>
         <Header appName={this.props.appName} currentUser={this.props.currentUser} />
         <Switch>
-          <Route path='/' exact component={Home}>
-          </Route>
-          <Route path='/login' component={Login}>
-          </Route>
+          <Route path='/' exact component={Home}/>
+          <Route path='/login' component={Login}/>
           <Route path='/register' component={Register} />
           <Route path='/settings' component={Settings} />
+          <Route path="/article/:id" component={Article} />
         </Switch>
       </div>
     )

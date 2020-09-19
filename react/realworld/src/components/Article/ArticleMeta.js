@@ -14,7 +14,7 @@ const ArticleMeta = props => {
                     {article.author.username}
                 </Link>
                 <span className='date'>
-                    {new Date(article.createAt).toDateString()}
+                    {new Date(article.createdAt).toLocaleString()}
                 </span>
             </div>
             <ArticleActions canModify={props.canModify} article={article} />
