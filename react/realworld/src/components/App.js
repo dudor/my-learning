@@ -13,6 +13,9 @@ import agent from '../agent';
 import Register from './Register';
 import Settings from './Settings';
 import Article from './Article';
+import Profile from './Profile';
+import ProfileFavorites from './ProfileFavorites';
+
 const mapStateToProps = state => {
   return {
     appName: state.common.appName,
@@ -50,6 +53,9 @@ class App extends React.Component {
           <Route path='/register' component={Register} />
           <Route path='/settings' component={Settings} />
           <Route path="/article/:id" component={Article} />
+          <Route path='/settings' component={Settings} />
+          <Route path="/@:username" exact component={Profile} />
+        <Route path="/@:username/favorites" component={ProfileFavorites} />
         </Switch>
       </div>
     )

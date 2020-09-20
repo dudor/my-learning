@@ -15,13 +15,15 @@ const MainView = props => {
                 </ul>
             </div>
             <ArticleList articles={props.articles} />
+
         </div>
     )
 }
 
 const mapState = state => {
+    console.log(state)
     return {
-        articles: state.home.articles
+        ...state.articleList
     }
 }
 export default connect(mapState)(MainView)

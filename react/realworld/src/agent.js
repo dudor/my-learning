@@ -2,7 +2,6 @@ import _superagent from 'superagent'
 
 const API_ROOT = 'https://conduit.productionready.io/api'
 const responseBody = res => {
-    console.log(res);
     return res.body;
 }
 
@@ -36,6 +35,8 @@ const Articles = {
     all: page => requests.get('/articles?limit=10'),
     delete: slug => requests.delete(`/articles/${slug}`),
     get: slug => requests.get(`/articles/${slug}`),
+    byAuthor: (author, page) => requests.get(`/articles?author=${encodeURIComponent(author)}&limit=5`),
+    favoritedBy: (author, page) => requests.get(`/articles?favorited=${encodeURIComponent(author)}&limit=5`),
 }
 const Comments = {
     create: (slug, comment) => requests.post(`/articles/${slug}/comments`, { comment }),
@@ -54,11 +55,17 @@ const Auth = {
         return requests.put('/user', user)
     }
 }
+const Profile={
+    follow:username=>requests.post(`/profiles/${username}/follow`),
+    unfollow:username=>requests.delete(`/frofiles/${username}/follow`),
+    get:username=>requests.get(`/profiles/${username}`),
+}
 
 export default {
     Articles,
     Auth,
     Comments,
+    Profile,
     SetToken: _token => { token = _token }
 };
 

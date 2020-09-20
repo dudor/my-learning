@@ -18,7 +18,7 @@ export default (state = {}, action) => {
             const commentID = action.commentID
             return {
                 ...state,
-                comments: state.comments.filter(c => c.id == commentID)
+                comments: state.comments.filter(c => c.id === commentID)
             }
     }
     return state;
