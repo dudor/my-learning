@@ -31,12 +31,15 @@ const requests = {
     }
 }
 
+const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`
+const encode = encodeURIComponent
 const Articles = {
-    all: page => requests.get('/articles?limit=10'),
+    all: page => requests.get(`/articles?${limit(10, page)}`),
     delete: slug => requests.delete(`/articles/${slug}`),
     get: slug => requests.get(`/articles/${slug}`),
-    byAuthor: (author, page) => requests.get(`/articles?author=${encodeURIComponent(author)}&limit=5`),
-    favoritedBy: (author, page) => requests.get(`/articles?favorited=${encodeURIComponent(author)}&limit=5`),
+    byAuthor: (author, page) => requests.get(`/articles?author=${encode(author)}&${limit(10, page)}`),
+    favoritedBy: (author, page) => requests.get(`/articles?favorited=${encode(author)}&${limit(10, page)}`),
+    feed: page => requests.get(`/articles/feed?${limit(10, page)}`),
 }
 const Comments = {
     create: (slug, comment) => requests.post(`/articles/${slug}/comments`, { comment }),
@@ -55,10 +58,13 @@ const Auth = {
         return requests.put('/user', user)
     }
 }
-const Profile={
-    follow:username=>requests.post(`/profiles/${username}/follow`),
-    unfollow:username=>requests.delete(`/frofiles/${username}/follow`),
-    get:username=>requests.get(`/profiles/${username}`),
+const Profile = {
+    follow: username => requests.post(`/profiles/${username}/follow`),
+    unfollow: username => requests.delete(`/frofiles/${username}/follow`),
+    get: username => requests.get(`/profiles/${username}`),
+}
+const Tags = {
+    getAll: () => requests.get(`/tags`)
 }
 
 export default {
@@ -66,6 +72,7 @@ export default {
     Auth,
     Comments,
     Profile,
+    Tags,
     SetToken: _token => { token = _token }
 };
 
