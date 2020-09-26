@@ -15,6 +15,7 @@ import Settings from './Settings';
 import Article from './Article';
 import Profile from './Profile';
 import ProfileFavorites from './ProfileFavorites';
+import Editor from './Editor'
 
 const mapStateToProps = state => {
   return {
@@ -48,14 +49,16 @@ class App extends React.Component {
       <div>
         <Header appName={this.props.appName} currentUser={this.props.currentUser} />
         <Switch>
-          <Route path='/' exact component={Home}/>
-          <Route path='/login' component={Login}/>
+          <Route path='/' exact component={Home} />
+          <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
           <Route path='/settings' component={Settings} />
           <Route path="/article/:id" component={Article} />
           <Route path='/settings' component={Settings} />
           <Route path="/@:username" exact component={Profile} />
-        <Route path="/@:username/favorites" component={ProfileFavorites} />
+          <Route path="/@:username/favorites" component={ProfileFavorites} />
+          <Route path="/editor" component={Editor} />
+          <Route path="/editor/:slug" component={Editor} />
         </Switch>
       </div>
     )

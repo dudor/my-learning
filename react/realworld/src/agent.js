@@ -30,7 +30,7 @@ const requests = {
         return _superagent.delete(`${API_ROOT}${url}`).use(tokenPlugin).withCredentials().then(responseBody)
     }
 }
-
+const omitSlug = article => Object.assign({}, article, { slug: undefined })
 const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`
 const encode = encodeURIComponent
 const Articles = {
@@ -40,6 +40,8 @@ const Articles = {
     byAuthor: (author, page) => requests.get(`/articles?author=${encode(author)}&${limit(10, page)}`),
     favoritedBy: (author, page) => requests.get(`/articles?favorited=${encode(author)}&${limit(10, page)}`),
     feed: page => requests.get(`/articles/feed?${limit(10, page)}`),
+    update: article => requests.put(`/articles/${article.slug}`, { article: omitSlug(article) }),
+    create: article => requests.post(`/articles`, { article }),
 }
 const Comments = {
     create: (slug, comment) => requests.post(`/articles/${slug}/comments`, { comment }),
