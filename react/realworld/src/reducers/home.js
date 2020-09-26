@@ -1,11 +1,13 @@
-export default (state={}, action) => {
+export default (state = {}, action) => {
     console.log(action)
     switch (action.type) {
         case 'HOME_PAGE_LOADED':
             return {
                 ...state,
-                articles: action.payload.articles
+                tags: action.payload[0].tags
             }
+        case 'HOME_PAGE_UNLOADED':
+            return {};
     }
     return state;
 }

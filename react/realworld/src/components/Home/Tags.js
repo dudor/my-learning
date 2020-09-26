@@ -4,7 +4,7 @@ import agent from '../../agent'
 const Tags = props => {
     const tags = props.tags
     if (tags) {
-        return <div className='tag-list'>
+        return <div>
             {
                 tags.map(tag => {
                     const handleClick = ev => {

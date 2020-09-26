@@ -3,10 +3,14 @@ import { connect } from 'react-redux'
 import Banner from './Banner'
 import MainView from './MainView'
 import agent from '../../agent'
+import Tags from './Tags'
 
 class Home extends React.Component {
     componentWillMount() {
-        this.props.onLoad(agent.Articles.all())
+        const tab = this.props.token ? 'feed' : 'all'
+        const articlesPromise = this.props.token ? agent.Articles.feed() : agent.Articles.all()
+        this.props.onLoad(tab, Promise.all([agent.Tags.getAll(), articlesPromise]))
+
     }
     componentWillUnmount() {
         this.props.onUnload()
@@ -14,14 +18,18 @@ class Home extends React.Component {
     render() {
         return (
             <div className="home-page">
-                <Banner appName={this.props.appName} />
+                <Banner appName={this.props.appName} token={this.props.token} />
                 <div className="container page">
                     <div className="row">
                         <MainView />
 
-                        <div className="col-md=3">
+                        <div className="col-md-3">
                             <div className="sidebar">
                                 <p>popular tags</p>
+                                <Tags
+                                    tags={this.props.tags}
+                                    onClickTag={this.props.onClickTag}
+                                />
                             </div>
                         </div>
 
@@ -35,14 +43,21 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return { appName: state.common.appName }
+    return {
+        ...state.home,
+        appName: state.common.appName,
+        token: state.common.token,
+    }
 }
 const mapDispatch = dispatch => ({
-    onLoad: (payload) => {
-        dispatch({ type: 'HOME_PAGE_LOADED', payload })
+    onLoad: (tab, payload) => {
+        dispatch({ type: 'HOME_PAGE_LOADED', tab, payload })
     },
     onUnload: () => {
         dispatch({ type: 'HOME_PAGE_UNLOADED' })
+    },
+    onClickTag: (tag, payload) => {
+        dispatch({ type: 'APPLY_TAG_FILTER', tag, payload })
     }
 })
 
